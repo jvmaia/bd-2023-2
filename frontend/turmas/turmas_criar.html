@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>turma</h1>
+<table>
+    <thead>
+        <th>cod_disciplina</th>
+        <th>cod_dpto</th>
+        <th>horario</th>
+        <th>local</th>
+        <th>periodo</th>
+        <th>professor_nome</th>
+        <th>total_vagas</th>
+        <th>vagas_ocupadas</th>
+        <th>editar</th>
+    </thead>
+    <tbody id="Turmas">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvarTurma = async () => {
+        console.log('Salvando Turma')
+        const cod_disciplina = document.getElementById("cod_disciplina").value
+        const cod_dpto = document.getElementById("cod_dpto").value
+        const horario = document.getElementById("horario").value
+        const local = document.getElementById("local").value
+        const periodo = document.getElementById("periodo").value
+        const professor_nome = document.getElementById("professor_nome").value
+        const total_vagas = document.getElementById("total_vagas").value
+        const vagas_ocupadas = document.getElementById("vagas_ocupadas").value
+        const response = await fetch(
+            `http://localhost:5000/turmas/`,
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    cod_disciplina,
+                    cod_dpto,
+                    horario,
+                    local,
+                    periodo,
+                    professor_nome,
+                    total_vagas,
+                    vagas_ocupadas
+                })
+            }
+        )
+        alert("Turma criada com sucesso")
+    }
+    window.loadTurmas = async () => {
+        console.log('Criando Turma')
+
+        let disciplinaRow = '<tr style="width: 100%;">'
+        disciplinaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="cod_disciplina"></input></td>`
+        disciplinaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="cod_dpto"></input></td>`
+        disciplinaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="horario"></input></td>`
+        disciplinaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="local"></input></td>`
+        disciplinaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="periodo"></input></td>`
+        disciplinaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="professor_nome"></input></td>`
+        disciplinaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="total_vagas"></input></td>`
+        disciplinaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="vagas_ocupadas"></input></td>`
+        disciplinaRow += `<td><button onclick="window.salvarTurma()"><a>Criar turma</a></button></td>`
+        disciplinaRow += '</tr>'
+
+        const element = document.getElementById("Turmas")
+        element.innerHTML += disciplinaRow
+    }
+    window.loadTurmas()
+</script>
+</html>
+

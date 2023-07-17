@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Home</h1>
+<table>
+    <thead>
+        <th><a href="avaliacoes/avaliacoes.html">Avaliacoes</a></th>
+        <th><a href="denuncias/denuncias.html">Denuncias</a></th>
+        <th><a href="departamentos/departamentos.html">Departamentos</a></th>
+        <th><a href="disciplinas/disciplinas.html">Disciplinas</a></th>
+        <th><a href="professores/professores.html">Professores</a></th>
+        <th><a href="turmas/turmas.html">Turmas</a></th>
+        <th><a href="usuarios/usuarios.html">Usuarios</a></th>
+        <th><a href="login.html">Sair</a></th>
+        <th><button onclick="window.sumir()"><a>Sumir</a></button></th>
+    </thead>
+</table>
+</body>
+<script>
+    window.sumir = async () => {
+        alert('sumindo')
+        await fetch('http://localhost:5000/usuarios/sumir/')
+    }
+</script>
+</html>
+

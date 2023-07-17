@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Avaliacoes</h1>
+<button onclick=""><a href="avaliacoes_criar.html">Criar avaliacao</a></button>
+<table>
+    <thead>
+        <th>id</th>
+        <th>nota</th>
+        <th>avaliacao</th>
+        <th>cod_estudante</th>
+        <th>cod_turma</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+    </thead>
+    <tbody id="Avaliacoes">
+    </tbody>
+</table>
+
+</body>
+<script>
+    console.log("HEY")
+    window.deletaravaliacao = async (cod) => {
+        console.log('Deletando avaliacao')
+        const response = await fetch(
+            `http://localhost:5000/avaliacoes/${cod}/`,
+            {
+                method: 'DELETE'
+            }
+        )
+        alert("avaliacao deletada com sucesso")
+    }
+
+    window.loadAvaliacoes = async () => {
+        console.log('loading Avaliacoes')
+        const response = await fetch("http://localhost:5000/avaliacoes/")
+        const responseJson = await response.json()
+        const length = 500 < responseJson.length ? 500 : responseJson.length
+        console.log(length)
+
+        const element = document.getElementById("Avaliacoes")
+        for (let i=0; i<length; i++) {
+            console.log('adding')
+            let avaliacaoData = responseJson[i]
+            let avaliacaoRow = '<tr>'
+            avaliacaoRow += `<td>${avaliacaoData.id}</td>`
+            avaliacaoRow += `<td>${avaliacaoData.nota}</td>`
+            avaliacaoRow += `<td>${avaliacaoData.avaliacao}</td>`
+            avaliacaoRow += `<td>${avaliacaoData.cod_estudante}</td>`
+            avaliacaoRow += `<td>${avaliacaoData.cod_turma}</td>`
+            avaliacaoRow += `<td><button><a href="avaliacao.html?cod=${avaliacaoData.id}">Editar</a></button></td>`
+            avaliacaoRow += `<td><button onclick="window.deletaravaliacao('${avaliacaoData.id}')"><a>Deletar avaliacao</a></button></td>`
+            avaliacaoRow += '</tr>'
+            element.innerHTML += avaliacaoRow
+        }
+    }
+    window.loadAvaliacoes()
+</script>
+</html>
+

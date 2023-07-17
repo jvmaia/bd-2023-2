@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Usuarios</h1>
+<button onclick=""><a href="usuarios_criar.html">Criar usuario</a></button>
+<table>
+    <thead>
+        <th>curso</th>
+        <th>email</th>
+        <th>matricula</th>
+        <th>nome</th>
+        <th>foto</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+    </thead>
+    <tbody id="Usuarios">
+    </tbody>
+</table>
+
+</body>
+<script>
+    console.log("HEY")
+    window.deletarusuario = async (cod) => {
+        console.log('Deletando usuario')
+        const response = await fetch(
+            `http://localhost:5000/usuarios/${cod}/`,
+            {
+                method: 'DELETE'
+            }
+        )
+        alert("usuario deletado com sucesso")
+    }
+
+    window.loadUsuarios = async () => {
+        console.log('loading Usuarios')
+        const response = await fetch("http://localhost:5000/usuarios/")
+        const responseJson = await response.json()
+        const length = 500 < responseJson.length ? 500 : responseJson.length
+        console.log(length)
+
+        const element = document.getElementById("Usuarios")
+        for (let i=0; i<length; i++) {
+            console.log('adding')
+            let usuarioData = responseJson[i]
+            let usuarioRow = '<tr>'
+            usuarioRow += `<td>${usuarioData.curso}</td>`
+            usuarioRow += `<td>${usuarioData.email}</td>`
+            usuarioRow += `<td>${usuarioData.matricula}</td>`
+            usuarioRow += `<td>${usuarioData.nome}</td>`
+            usuarioRow += `<td><img src="data:image/png;base64,${usuarioData.foto}"/></td>`
+            usuarioRow += `<td><button><a href="usuario.html?cod=${usuarioData.matricula}">Editar</a></button></td>`
+            usuarioRow += `<td><button onclick="window.deletarusuario('${usuarioData.matricula}')"><a>Deletar usuario</a></button></td>`
+            usuarioRow += '</tr>'
+            element.innerHTML += usuarioRow
+        }
+    }
+    window.loadUsuarios()
+</script>
+</html>
+

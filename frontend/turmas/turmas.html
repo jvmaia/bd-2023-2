@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>turmas</h1>
+<button onclick=""><a href="turmas_criar.html">Criar turma</a></button>
+<table>
+    <thead>
+        <th>id</th>
+        <th>cod_disciplina</th>
+        <th>cod_dpto</th>
+        <th>horario</th>
+        <th>local</th>
+        <th>periodo</th>
+        <th>professor_nome</th>
+        <th>total_vagas</th>
+        <th>vagas_ocupadas</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+    </thead>
+    <tbody id="turmas">
+    </tbody>
+</table>
+
+</body>
+<script>
+    console.log("HEY")
+    window.deletarturma = async (cod) => {
+        console.log('Deletando turma')
+        const response = await fetch(
+            `http://localhost:5000/turmas/${cod}/`,
+            {
+                method: 'DELETE'
+            }
+        )
+        alert("turma deletada com sucesso")
+    }
+
+    window.loadturmas = async () => {
+        console.log('loading turmas')
+        const response = await fetch("http://localhost:5000/turmas/")
+        const responseJson = await response.json()
+        const length = 500 < responseJson.length ? 500 : responseJson.length
+        console.log(length)
+
+        const element = document.getElementById("turmas")
+        for (let i=0; i<length; i++) {
+            console.log('adding')
+            let turmaData = responseJson[i]
+            let TurmaRow = '<tr>'
+                TurmaRow += `<td>${turmaData.id}</td>`
+                TurmaRow += `<td>${turmaData.cod_disciplina}</td>`
+                TurmaRow += `<td>${turmaData.cod_dpto}</td>`
+                TurmaRow += `<td>${turmaData.horario}</td>`
+                TurmaRow += `<td>${turmaData.local}</td>`
+                TurmaRow += `<td>${turmaData.periodo}</td>`
+                TurmaRow += `<td>${turmaData.professor_nome}</td>`
+                TurmaRow += `<td>${turmaData.total_vagas}</td>`
+                TurmaRow += `<td>${turmaData.vagas_ocupadas}</td>`
+                TurmaRow += `<td><button><a href="turma.html?cod=${turmaData.id}">Editar</a></button></td>`
+                TurmaRow += `<td><button onclick="window.deletarturma('${turmaData.id}')"><a>Deletar turma</a></button></td>`
+                TurmaRow += '</tr>'
+            TurmaRow += '</tr>'
+            element.innerHTML += TurmaRow
+        }
+    }
+    window.loadturmas()
+</script>
+</html>
+

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Professor</h1>
+<table>
+    <thead>
+        <th>Nome</th>
+        <th>Cod</th>
+        <th>Departamento</th>
+        <th>Criar</th>
+    </thead>
+    <tbody id="Professors">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvarProfessor = async () => {
+        console.log('Salvando Professor')
+        const novoNome = document.getElementById("novoNome").value
+        const novoCod = document.getElementById("novoCod").value
+        const novoCodDpto = document.getElementById("novoCodDpto").value
+        const response = await fetch(
+            `http://localhost:5000/professores/`,
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nome: novoNome,
+                    cod: novoCod,
+                    cod_departamento: novoCodDpto,
+                })
+            }
+        )
+        alert("Professor criada com sucesso")
+    }
+    window.loadProfessors = async () => {
+        console.log('Criando Professor')
+
+        let ProfessorRow = '<tr style="width: 100%;">'
+        ProfessorRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="novoNome"></input></td>`
+        ProfessorRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="novoCod"></input></td>`
+        ProfessorRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="novoCodDpto"></input></td>`
+        ProfessorRow += `<td><button onclick="window.salvarProfessor()"><a>Criar Professor</a></button></td>`
+        ProfessorRow += '</tr>'
+
+        const element = document.getElementById("Professors")
+        element.innerHTML += ProfessorRow
+    }
+    window.loadProfessors()
+</script>
+</html>
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Departamentos</h1>
+<button onclick=""><a href="departamentos_criar.html">Criar Departamento</a></button>
+<table>
+    <thead>
+        <th>Cod</th>
+        <th>Nome</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+    </thead>
+    <tbody id="Departamentos">
+    </tbody>
+</table>
+
+</body>
+<script>
+    console.log("HEY")
+    window.deletarDepartamento = async (cod) => {
+        console.log('Deletando Departamento')
+        const response = await fetch(
+            `http://localhost:5000/departamentos/${cod}/`,
+            {
+                method: 'DELETE'
+            }
+        )
+        alert("Departamento deletada com sucesso")
+    }
+
+    window.loadDepartamentos = async () => {
+        console.log('loading Departamentos')
+        const response = await fetch("http://localhost:5000/departamentos/")
+        const responseJson = await response.json()
+        const length = 500 < responseJson.length ? 500 : responseJson.length
+        console.log(length)
+
+        const element = document.getElementById("Departamentos")
+        for (let i=0; i<length; i++) {
+            console.log('adding')
+            let DepartamentoData = responseJson[i]
+            let DepartamentoRow = '<tr>'
+            DepartamentoRow += `<td>${DepartamentoData.cod}</td>`
+            DepartamentoRow += `<td>${DepartamentoData.nome}</td>`
+            DepartamentoRow += `<td><button><a href="Departamento.html?cod=${DepartamentoData.cod}">Editar</a></button></td>`
+            DepartamentoRow += `<td><button onclick="window.deletarDepartamento('${DepartamentoData.cod}')"><a>Deletar Departamento</a></button></td>`
+            DepartamentoRow += '</tr>'
+            element.innerHTML += DepartamentoRow
+        }
+    }
+    window.loadDepartamentos()
+</script>
+</html>
+

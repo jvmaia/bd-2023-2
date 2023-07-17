@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Disciplina</h1>
+<table>
+    <thead>
+        <th>Nome</th>
+        <th>Cod</th>
+        <th>Departamento</th>
+        <th>Criar</th>
+    </thead>
+    <tbody id="Disciplinas">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvarDisciplina = async () => {
+        console.log('Salvando Disciplina')
+        const novoNome = document.getElementById("novoNome").value
+        const novoCod = document.getElementById("novoCod").value
+        const novoCodDpto = document.getElementById("novoCodDpto").value
+        const response = await fetch(
+            `http://localhost:5000/disciplinas/`,
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nome: novoNome,
+                    cod: novoCod,
+                    cod_dpto: novoCodDpto,
+                })
+            }
+        )
+        alert("Disciplina criada com sucesso")
+    }
+    window.loadDisciplinas = async () => {
+        console.log('Criando Disciplina')
+
+        let disciplinaRow = '<tr style="width: 100%;">'
+        disciplinaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="novoNome"></input></td>`
+        disciplinaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="novoCod"></input></td>`
+        disciplinaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="novoCodDpto"></input></td>`
+        disciplinaRow += `<td><button onclick="window.salvarDisciplina()"><a>Criar disciplina</a></button></td>`
+        disciplinaRow += '</tr>'
+
+        const element = document.getElementById("Disciplinas")
+        element.innerHTML += disciplinaRow
+    }
+    window.loadDisciplinas()
+</script>
+</html>
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Avaliacao</h1>
+<table>
+    <thead>
+        <th>nota</th>
+        <th>avaliacao</th>
+        <th>cod_estudante</th>
+        <th>cod_turma</th>
+        <th>Editar</th>
+    </thead>
+    <tbody id="avaliacaos">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvaravaliacao = async () => {
+        console.log('Salvando avaliacao')
+        const nota = document.getElementById("nota").value
+        const avaliacao = document.getElementById("avaliacao").value
+        const cod_estudante = document.getElementById("cod_estudante").value
+        const cod_turma = document.getElementById("cod_turma").value
+        const response = await fetch(
+            `http://localhost:5000/avaliacoes/`,
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nota,
+                    avaliacao,
+                    cod_estudante,
+                    cod_turma
+                })
+            }
+        )
+        alert("avaliacao criada com sucesso")
+    }
+    window.loadavaliacaos = async () => {
+        console.log('Criando avaliacao')
+
+        let avaliacaoRow = '<tr style="width: 100%;">'
+        avaliacaoRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="nota"></input></td>`
+        avaliacaoRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="avaliacao"></input></td>`
+        avaliacaoRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="cod_estudante"></input></td>`
+        avaliacaoRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="cod_turma"></input></td>`
+        avaliacaoRow += `<td><button onclick="window.salvaravaliacao()"><a>Criar avaliacao</a></button></td>`
+        avaliacaoRow += '</tr>'
+
+        const element = document.getElementById("avaliacaos")
+        element.innerHTML += avaliacaoRow
+    }
+    window.loadavaliacaos()
+</script>
+</html>
+

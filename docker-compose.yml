@@ -1,0 +1,21 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/code
+    environment:
+      FLASK_DEBUG: "true"
+      POSTGRES_URL: "db:5432"
+      POSTGRES_USER: "db"
+      POSTGRES_PW: "bddb"
+      POSTGRES_DATABASE: "db"
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: "db"
+      POSTGRES_PASSWORD: "bddb"
+      POSTGRES_DB: "db"
+    ports:
+      - "5432:5432"

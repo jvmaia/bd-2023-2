@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Turma</h1>
+<table>
+    <thead>
+        <th>id</th>
+        <th>cod_disciplina</th>
+        <th>cod_dpto</th>
+        <th>horario</th>
+        <th>local</th>
+        <th>periodo</th>
+        <th>professor_nome</th>
+        <th>total_vagas</th>
+        <th>vagas_ocupadas</th>
+        <th>editar</th>
+    </thead>
+    <tbody id="Turmas">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvarTurma = async () => {
+        console.log('Salvando Turma')
+        const vagas_ocupadas = document.getElementById("vagas_ocupadas").value
+        const novoLocal = document.getElementById("novoLocal").value
+        const response = await fetch(
+            `http://localhost:5000/turmas/${cod}/`,
+            {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    local: novoLocal,
+                    vagas_ocupadas: vagas_ocupadas
+                })
+            }
+    )
+        alert("Turma editada com sucesso")
+    }
+    window.loadTurmas = async () => {
+        console.log('loading Turma')
+        const urlParams = new URLSearchParams(window.location.search);
+        const cod = urlParams.get('cod');
+        window.cod = cod
+
+        const response = await fetch(`http://localhost:5000/turmas/${cod}/`)
+        const responseJson = await response.json()
+        console.log(length)
+        let TurmaRow = '<tr style="width: 100%;">'
+        TurmaRow += `<td>${responseJson.id}</td>`
+        TurmaRow += `<td>${responseJson.cod_disciplina}</td>`
+        TurmaRow += `<td>${responseJson.cod_dpto}</td>`
+        TurmaRow += `<td>${responseJson.horario}</td>`
+        TurmaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="novoLocal" value="${responseJson.local}"></input></td>`
+        TurmaRow += `<td>${responseJson.periodo}</td>`
+        TurmaRow += `<td>${responseJson.professor_nome}</td>`
+        TurmaRow += `<td>${responseJson.total_vagas}</td>`
+        TurmaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="vagas_ocupadas" value="${responseJson.vagas_ocupadas}"></input></td>`
+        TurmaRow += `<td><button onclick="window.salvarTurma()"><a>Salvar edição</a></button></td>`
+        TurmaRow += '</tr>'
+
+        const element = document.getElementById("Turmas")
+        element.innerHTML += TurmaRow
+    }
+    window.loadTurmas()
+</script>
+</html>
+

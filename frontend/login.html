@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Login</h1>
+<td><button><a href="usuarios/usuarios_criar.html">Registrar-se</a></button></td>
+<table>
+    <thead>
+        <th>matricula</th>
+        <th>senha</th>
+        <th>entrar</th>
+    </thead>
+    <tbody id="usuarios">
+        <td  style="width: 100%;"><input  style="width: 100%;" id="matricula"></input></td>
+        <td  style="width: 100%;"><input  style="width: 100%;" id="senha" type="password"></input></td>
+        <td><button onclick="window.entrar()"><a>Entrar</a></button></td>
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.entrar = async () => {
+        console.log('Salvando usuario')
+        const matricula = document.getElementById("matricula").value
+        const senha = document.getElementById("senha").value
+        const response = await fetch(
+            `http://localhost:5000/usuarios/login`,
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    matricula,
+                    senha,
+                })
+            }
+        )
+        const json = await response.json()
+        if (json.success) {
+            localStorage.setItem("administrador", json.administrador);
+            alert('Login realizado com sucesso')
+            window.location.href = 'index.html'
+        } else {
+            alert('Verifique suas informações e tente novamente')
+        }
+    }
+</script>
+</html>
+

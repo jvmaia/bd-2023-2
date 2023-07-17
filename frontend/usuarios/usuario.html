@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>usuario</h1>
+<table>
+    <thead>
+        <th>curso</th>
+        <th>email</th>
+        <th>matricula</th>
+        <th>nome</th>
+        <th>Editar</th>
+    </thead>
+    <tbody id="usuarios">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvarusuario = async () => {
+        console.log('Salvando usuario')
+        const novoNome = document.getElementById("novoNome").value
+        const response = await fetch(
+            `http://localhost:5000/usuarios/${cod}/`,
+            {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nome: novoNome
+                })
+            }
+        )
+        alert("usuario editada com sucesso")
+    }
+    window.loadusuarios = async () => {
+        console.log('loading usuario')
+        const urlParams = new URLSearchParams(window.location.search);
+        const cod = urlParams.get('cod');
+        window.cod = cod
+
+        const response = await fetch(`http://localhost:5000/usuarios/${cod}/`)
+        const responseJson = await response.json()
+        console.log(length)
+        let usuarioRow = '<tr style="width: 100%;">'
+        usuarioRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="novoNome" value="${responseJson.nome}"></input></td>`
+        usuarioRow += `<td>${responseJson.email}</td>`
+        usuarioRow += `<td>${responseJson.matricula}</td>`
+        usuarioRow += `<td>${responseJson.curso}</td>`
+        usuarioRow += `<td>${responseJson.senha}</td>`
+        usuarioRow += `<td><button onclick="window.salvarusuario()"><a>Salvar edição</a></button></td>`
+        usuarioRow += '</tr>'
+
+        const element = document.getElementById("usuarios")
+        element.innerHTML += usuarioRow
+    }
+    window.loadusuarios()
+</script>
+</html>
+

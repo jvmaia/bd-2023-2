@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Denuncia</h1>
+<table>
+    <thead>
+        <th>denuncia</th>
+        <th>avaliacao</th>
+        <th>cod_estudante</th>
+        <th>cod_avaliador</th>
+        <th>cod_avaliacao</th>
+        <th>Editar</th>
+    </thead>
+    <tbody id="denuncias">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvarDenuncia = async () => {
+        console.log('Salvando Denuncia')
+        const avaliacao = document.getElementById("avaliacao").value
+        const denuncia = document.getElementById("Denuncia").value
+        const response = await fetch(
+            `http://localhost:5000/denuncias/${cod}/`,
+            {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    avaliacao,
+                    denuncia
+                })
+            }
+        )
+        alert("Denuncia editada com sucesso")
+    }
+    window.loaddenuncias = async () => {
+        console.log('loading Denuncia')
+        const urlParams = new URLSearchParams(window.location.search);
+        const cod = urlParams.get('cod');
+        window.cod = cod
+
+        const response = await fetch(`http://localhost:5000/denuncias/${cod}/`)
+        const responseJson = await response.json()
+        let DenunciaRow = '<tr style="width: 100%;">'
+        DenunciaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="Denuncia" value="${responseJson.denuncia}"></input></td>`
+        DenunciaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="avaliacao" value="${responseJson.avaliacao}"></input></td>`
+        DenunciaRow += `<td>${responseJson.cod_estudante}</td>`
+        DenunciaRow += `<td>${responseJson.cod_avaliador}</td>`
+        DenunciaRow += `<td>${responseJson.cod_avaliacao}</td>`
+        DenunciaRow += `<td><button onclick="window.salvarDenuncia()"><a>Salvar edição</a></button></td>`
+        DenunciaRow += '</tr>'
+
+        const element = document.getElementById("denuncias")
+        element.innerHTML += DenunciaRow
+    }
+    window.loaddenuncias()
+</script>
+</html>
+

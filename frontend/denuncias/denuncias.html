@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Denuncias</h1>
+<button onclick=""><a href="denuncias_criar.html">Criar denuncia</a></button>
+<table>
+    <thead>
+        <th>avaliacao</th>
+        <th>cod_avaliacao</th>
+        <th>cod_avaliador</th>
+        <th>cod_estudante</th>
+        <th>denuncia</th>
+        <th>id</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+    </thead>
+    <tbody id="Denuncias">
+    </tbody>
+</table>
+
+</body>
+<script>
+    console.log("HEY")
+    window.deletardenuncia = async (cod) => {
+        console.log('Deletando denuncia')
+        const response = await fetch(
+            `http://localhost:5000/denuncias/${cod}/`,
+            {
+                method: 'DELETE'
+            }
+        )
+        alert("denuncia deletada com sucesso")
+    }
+
+    window.loadDenuncias = async () => {
+        console.log('loading Denuncias')
+        const response = await fetch("http://localhost:5000/denuncias/")
+        const responseJson = await response.json()
+        const length = 500 < responseJson.length ? 500 : responseJson.length
+        console.log(length)
+
+        const element = document.getElementById("Denuncias")
+        for (let i=0; i<length; i++) {
+            console.log('adding')
+            let denunciaData = responseJson[i]
+            let denunciaRow = '<tr>'
+            denunciaRow += `<td>${denunciaData.avaliacao}</td>`
+            denunciaRow += `<td>${denunciaData.cod_avaliacao}</td>`
+            denunciaRow += `<td>${denunciaData.cod_avaliador}</td>`
+            denunciaRow += `<td>${denunciaData.cod_estudante}</td>`
+            denunciaRow += `<td>${denunciaData.denuncia}</td>`
+            denunciaRow += `<td>${denunciaData.id}</td>`
+            if (localStorage.getItem("administrador")) {
+                denunciaRow += `<td><button><a href="denuncia.html?cod=${denunciaData.id}">Editar</a></button></td>`
+                denunciaRow += `<td><button onclick="window.deletardenuncia('${denunciaData.id}')"><a>Deletar denuncia</a></button></td>`
+            } else {
+                
+            }
+            denunciaRow += '</tr>'
+            element.innerHTML += denunciaRow
+        }
+    }
+    window.loadDenuncias()
+</script>
+</html>
+

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Denuncia</h1>
+<table>
+    <thead>
+        <th>denuncia</th>
+        <th>avaliacao</th>
+        <th>cod_estudante</th>
+        <th>cod_avaliador</th>
+        <th>cod_avaliacao</th>
+        <th>Editar</th>
+    </thead>
+    <tbody id="denuncias">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvardenuncia = async () => {
+        console.log('Salvando denuncia')
+        const denuncia = document.getElementById("denuncia").value
+        const avaliacao = document.getElementById("avaliacao").value
+        const cod_estudante = document.getElementById("cod_estudante").value
+        const cod_avaliador = document.getElementById("cod_avaliador").value
+        const cod_avaliacao = document.getElementById("cod_avaliacao").value
+        const response = await fetch(
+            `http://localhost:5000/denuncias/`,
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    denuncia,
+                    avaliacao,
+                    cod_estudante,
+                    cod_avaliador,
+                    cod_avaliacao
+                })
+            }
+        )
+        alert("avaliacao criada com sucesso")
+    }
+    window.loaddenuncias = async () => {
+        console.log('Criando denuncia')
+
+        let denunciaRow = '<tr style="width: 100%;">'
+        denunciaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="denuncia"></input></td>`
+        denunciaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="avaliacao"></input></td>`
+        denunciaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="cod_estudante"></input></td>`
+        denunciaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="cod_avaliador"></input></td>`
+        denunciaRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="cod_avaliacao"></input></td>`
+        denunciaRow += `<td><button onclick="window.salvardenuncia()"><a>Criar avaliacao</a></button></td>`
+        denunciaRow += '</tr>'
+
+        const element = document.getElementById("denuncias")
+        element.innerHTML += denunciaRow
+    }
+    window.loaddenuncias()
+</script>
+</html>
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Departamento</h1>
+<table>
+    <thead>
+        <th>Nome</th>
+        <th>Cod</th>
+        <th>Criar</th>
+    </thead>
+    <tbody id="departamentos">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvardepartamento = async () => {
+        console.log('Salvando departamento')
+        const novoNome = document.getElementById("novoNome").value
+        const novoCod = document.getElementById("novoCod").value
+        const response = await fetch(
+            `http://localhost:5000/departamentos/`,
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nome: novoNome,
+                    cod: novoCod
+                })
+            }
+        )
+        alert("Departamento criado com sucesso")
+    }
+    window.loaddepartamentos = async () => {
+        console.log('Criando departamento')
+
+        let departamentoRow = '<tr style="width: 100%;">'
+        departamentoRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="novoNome"></input></td>`
+        departamentoRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="novoCod"></input></td>`
+        departamentoRow += `<td><button onclick="window.salvardepartamento()"><a>Criar departamento</a></button></td>`
+        departamentoRow += '</tr>'
+
+        const element = document.getElementById("departamentos")
+        element.innerHTML += departamentoRow
+    }
+    window.loaddepartamentos()
+</script>
+</html>
+

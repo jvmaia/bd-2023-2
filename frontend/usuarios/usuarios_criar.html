@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Usuario</h1>
+<table>
+    <thead>
+        <th>nome</th>
+        <th>foto</th>
+        <th>email</th>
+        <th>matricula</th>
+        <th>curso</th>
+        <th>senha</th>
+        <th>é administrador</th>
+        <th>Criar</th>
+    </thead>
+    <tbody id="Usuario">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvarUsuario = async () => {
+        console.log('Salvando Usuario')
+        const formData = new FormData()
+        const nome = document.getElementById("nome").value
+        const email = document.getElementById("email").value
+        const matricula = document.getElementById("matricula").value
+        const curso = document.getElementById("curso").value
+        const senha = document.getElementById("senha").value
+        const eh_administrador = document.getElementById("eh_administrador").checked
+        const fotoReader = new FileReader()
+        const foto = await document.getElementById("foto").files[0].arrayBuffer()
+        formData.append('nome', nome)
+        formData.append('email', email)
+        formData.append('matricula', matricula)
+        formData.append('curso', curso)
+        formData.append('senha', senha)
+        formData.append('eh_administrador', eh_administrador)
+        formData.append('foto', new Blob([foto]))
+        const response = await fetch(
+            `http://localhost:5000/usuarios/`,
+            {
+                method: 'POST',
+                headers: {
+                    // "Content-Type": "multipart/form-data",
+                },
+                body: formData
+            }
+        )
+        alert("Usuario criada com sucesso")
+    }
+    window.loadUsuario = async () => {
+        console.log('Criando Usuario')
+
+        let UsuarioRow = '<tr style="width: 100%;">'
+        UsuarioRow += `<td  style="width: 50%;"><input  style="width: 100%;" id="nome"></input></td>`
+        UsuarioRow += `<td  style="width: 10%;"><input  style="width: 100%;" id="foto" type="file"></input></td>`
+        UsuarioRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="email"></input></td>`
+        UsuarioRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="matricula"></input></td>`
+        UsuarioRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="curso"></input></td>`
+        UsuarioRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="senha"></input></td>`
+        UsuarioRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="eh_administrador" type="checkbox"></input></td>`
+        UsuarioRow += `<td><button onclick="window.salvarUsuario()"><a>Criar Usuario</a></button></td>`
+        UsuarioRow += '</tr>'
+
+        const element = document.getElementById("Usuario")
+        element.innerHTML += UsuarioRow
+    }
+    window.loadUsuario()
+</script>
+</html>
+

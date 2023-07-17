@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Departamento</h1>
+<table>
+    <thead>
+        <th>Cod</th>
+        <th>Nome</th>
+        <th>Editar</th>
+    </thead>
+    <tbody id="Departamentos">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvarDepartamento = async () => {
+        console.log('Salvando Departamento')
+        const novoNome = document.getElementById("novoNome").value
+        const response = await fetch(
+            `http://localhost:5000/departamentos/${cod}/`,
+            {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nome: novoNome
+                })
+            }
+        )
+        alert("Departamento editado com sucesso")
+    }
+    window.loadDepartamentos = async () => {
+        console.log('loading Departamento')
+        const urlParams = new URLSearchParams(window.location.search);
+        const cod = urlParams.get('cod');
+        window.cod = cod
+
+        const response = await fetch(`http://localhost:5000/departamentos/${cod}/`)
+        const responseJson = await response.json()
+        console.log(length)
+        let DepartamentoRow = '<tr style="width: 100%;">'
+        DepartamentoRow += `<td>${responseJson.cod}</td>`
+        DepartamentoRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="novoNome" value="${responseJson.nome}"></input></td>`
+        DepartamentoRow += `<td><button onclick="window.salvarDepartamento()"><a>Salvar edição</a></button></td>`
+        DepartamentoRow += '</tr>'
+
+        const element = document.getElementById("Departamentos")
+        element.innerHTML += DepartamentoRow
+    }
+    window.loadDepartamentos()
+</script>
+</html>
+

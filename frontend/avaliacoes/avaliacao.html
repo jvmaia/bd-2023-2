@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Avaliacao</h1>
+<table>
+    <thead>
+        <th>Cod</th>
+        <th>Departamento</th>
+        <th>Nome</th>
+        <th>Editar</th>
+    </thead>
+    <tbody id="Avaliacoes">
+    </tbody>
+</table>
+
+</body>
+<script>
+    window.salvarAvaliacao = async () => {
+        console.log('Salvando Avaliacao')
+        const nota = document.getElementById("nota").value
+        const avaliacao = document.getElementById("avaliacao").value
+        const response = await fetch(
+            `http://localhost:5000/avaliacoes/${cod}/`,
+            {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nota,
+                    avaliacao
+                })
+            }
+        )
+        alert("Avaliacao editada com sucesso")
+    }
+    window.loadAvaliacoes = async () => {
+        console.log('loading Avaliacao')
+        const urlParams = new URLSearchParams(window.location.search);
+        const cod = urlParams.get('cod');
+        window.cod = cod
+
+        const response = await fetch(`http://localhost:5000/avaliacoes/${cod}/`)
+        const responseJson = await response.json()
+        let AvaliacaoRow = '<tr style="width: 100%;">'
+        AvaliacaoRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="nota" value="${responseJson.nota}"></input></td>`
+        AvaliacaoRow += `<td  style="width: 100%;"><input  style="width: 100%;" id="avaliacao" value="${responseJson.avaliacao}"></input></td>`
+        AvaliacaoRow += `<td>${responseJson.cod_estudante}</td>`
+        AvaliacaoRow += `<td>${responseJson.cod_turma}</td>`
+        AvaliacaoRow += `<td><button onclick="window.salvarAvaliacao()"><a>Salvar edição</a></button></td>`
+        AvaliacaoRow += '</tr>'
+
+        const element = document.getElementById("Avaliacoes")
+        element.innerHTML += AvaliacaoRow
+    }
+    window.loadAvaliacoes()
+</script>
+</html>
+

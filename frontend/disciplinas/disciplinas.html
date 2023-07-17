@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Disciplinas</h1>
+<button onclick=""><a href="disciplinas_criar.html">Criar disciplina</a></button>
+<table>
+    <thead>
+        <th>Cod</th>
+        <th>Departamento</th>
+        <th>Nome</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+    </thead>
+    <tbody id="Disciplinas">
+    </tbody>
+</table>
+
+</body>
+<script>
+    console.log("HEY")
+    window.deletarDisciplina = async (cod) => {
+        console.log('Deletando Disciplina')
+        const response = await fetch(
+            `http://localhost:5000/disciplinas/${cod}/`,
+            {
+                method: 'DELETE'
+            }
+        )
+        alert("Disciplina deletada com sucesso")
+    }
+
+    window.loadDisciplinas = async () => {
+        console.log('loading Disciplinas')
+        const response = await fetch("http://localhost:5000/disciplinas/")
+        const responseJson = await response.json()
+        const length = 500 < responseJson.length ? 500 : responseJson.length
+        console.log(length)
+
+        const element = document.getElementById("Disciplinas")
+        for (let i=0; i<length; i++) {
+            console.log('adding')
+            let disciplinaData = responseJson[i]
+            let disciplinaRow = '<tr>'
+            disciplinaRow += `<td>${disciplinaData.cod}</td>`
+            disciplinaRow += `<td>${disciplinaData.cod_dpto}</td>`
+            disciplinaRow += `<td>${disciplinaData.nome}</td>`
+            disciplinaRow += `<td><button><a href="disciplina.html?cod=${disciplinaData.cod}">Editar</a></button></td>`
+            disciplinaRow += `<td><button onclick="window.deletarDisciplina('${disciplinaData.cod}')"><a>Deletar disciplina</a></button></td>`
+            disciplinaRow += '</tr>'
+            element.innerHTML += disciplinaRow
+        }
+    }
+    window.loadDisciplinas()
+</script>
+</html>
+
