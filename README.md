@@ -10,4 +10,4 @@
 - assim, você já possui todos os dados que foram fornecidos nos CSVs para inserção no banco
 
 ## [Video de apresentacao](video_bd.mov)
-## [Relatorio](relatorio.md)
+## [Relatorio](RELATORIO.md)
