@@ -32,5 +32,9 @@ A tabela possui as seguintes colunas: "cod" (chave primária), "nome" e "cod_dpt
 Não há dependências funcionais adicionais presentes nessa tabela.
 Portanto, a tabela "disciplina" também está na primeira forma normal (1NF).
 
+## Scripts
+- [Script para gerar o schema](setup_bd.sql)
+- [Script para popular o banco](populate_bd.sql)
+
 ## Conclusão
 Nesse trabalho consegui demonstrar que mesmo com as ferramentas simples (HTML e Javascript puros) conseguimos criar um sistema de cadastro funcional e que apresenta uma boa performance e é capaz de rodar até nos computadores mais simples, sem a necessidade do carregamento de libs pesadas e complexas.
